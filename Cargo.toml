@@ -1,0 +1,6 @@
+[package]
+name = "color-maze"
+version = "0.1.0"
+authors = ["Ben Lovy <bendlovy@gmail.com>"]
+
+[dependencies]
