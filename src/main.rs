@@ -120,7 +120,7 @@ fn find_path(p: &mut Path, m: &Maze, s: &Sequence) -> Option<Path> {
     let mut matches = Vec::new();
     for n in &neighbors {
         if m[n.y][n.x] == nth_in_sequence(s, p.len()) {
-            if freq(n, p) >= s.len() - 1 {
+            if freq(n, p) >= 2 {
                 continue;
             }
             //if we're at the top row, return the full path
@@ -164,7 +164,31 @@ fn solve(m: &Maze, s: &Sequence) -> Vec<Path> {
     paths
 }
 
+fn member(c: &Point, p: &Path) -> bool {
+    for n in p {
+        if n == c {
+            return true;
+        }
+    }
+    false
+}
+
+//pretty_print takes a maze and a path, and outputs the maze with only the path filled in
+fn pretty_print(m: &Maze, p: &Path) {
+    for (x, l) in m.iter().enumerate() {
+        for (y, _) in l.iter().enumerate() {
+            if member(&Point { x: y, y: x}, p) {
+                print!("{:?}", m[x][y]);
+            } else {
+                print!(".");
+            }
+        }
+        println!();
+    }
+}
+
 fn main() {
     let (maze, seq) = init();
-    println!("solution: {:?}", solve(&maze, &seq));
+    let paths = solve(&maze, &seq);
+    pretty_print(&maze, &paths[0]);
 }
